@@ -3,15 +3,16 @@
  * @return {number}
  */
 var countBinarySubstrings = function (s) {
-  let result = 0
-  function match(str) {
-    
-    return
+  let count = 0
+  let match = (str) => {
+    let a = str.match(/^(0+|1+)/)[0]
+    let b = (a[0] ^ 1).toString().repeat(a.length)
+    return str.startsWith(a + b)
   }
-  for (let i = 0; i < s.length - 1; i++) {
-    match(str.slice(i)) ? result++ : ''
+  for (let i = 0, len = s.length - 1; i < len; i++) {
+    match(s.slice(i)) && count++
   }
-  return result
+  return count
 };
 
 console.log(countBinarySubstrings('00110011'))
