@@ -10,12 +10,13 @@
  * @return {boolean}
  */
 var isSymmetric = function (root) {
-
+  if (!root) return true
+  const walk = (left, right) => {
+    if (!left && !right) return true
+    if ((left && !right) || (!left && right) || (left.val !== right.val)) {
+      return false
+    }
+    return walk(left.left, right.right) && walk(left.right, right.left)
+  }
+  return walk(root.left, root.right)
 };
-
-for (let i = 0; i < 10000; i++) {
-  document.getElementsByClassName('btnContent')[0].click()
-}
-for (let i = 0; i < 100; i++) {
-  document.getElementsByClassName('btnContent')[6].click()
-}
