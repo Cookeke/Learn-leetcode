@@ -12,32 +12,31 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
   //   return fun(x - 1, y) + fun(x, y - 1)
   // }
   // return fun(endX, endY)
-  let [m, n] = [obstacleGrid.length, obstacleGrid[0].length]
-  if (obstacleGrid[0][0] === 1) return 0;
-  for (var i = 0; i < n; i++) {
+  const [m, n] = [obstacleGrid.length, obstacleGrid[0].length]
+  if (obstacleGrid[0][0] === 1 || obstacleGrid[m - 1][n - 1]) return 0
+  let [stopTop, stopLeft] = [false, false]
+  for (let i = 0; i < n; i++) {
     if (obstacleGrid[0][i] === 0) {
       obstacleGrid[0][i] = 1
     } else if (obstacleGrid[0][i] === 1) {
-      obstacleGrid[0][i] = 0
-      var stop = true
+      stopTop = true
     }
-    if (stop) {
+    if (stopTop) {
       obstacleGrid[0][i] = 0
     }
   }
-  for (var j = 1; j < m; j++) {
+  for (let j = 1; j < m; j++) {
     if (obstacleGrid[j][0] === 0) {
       obstacleGrid[j][0] = 1
     } else if (obstacleGrid[j][0] === 1) {
-      obstacleGrid[j][0] = 0
-      var _stop = true
+      stopLeft = true
     }
-    if (_stop) {
+    if (stopLeft) {
       obstacleGrid[j][0] = 0
     }
   }
-  for (var i = 1; i < m; i++) {
-    for (var j = 1; j < n; j++) {
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
       if (obstacleGrid[i][j] === 1) {
         obstacleGrid[i][j] = 0
       } else {
