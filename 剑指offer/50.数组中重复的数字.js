@@ -1,11 +1,13 @@
 function duplicate(numbers, duplication) {
-  // write code here
-  //这里要特别注意~找到任意重复的一个值并赋值到duplication[0]
-  //函数返回True/False
   const obj = {}
-  numbers.forEach(item => {
-    if
-  })
-
-
+  for (let i = 0; i < numbers.length; i++) {
+    if (obj[numbers[i]]) {
+      duplication[0] = numbers[i]
+      return true
+    } else {
+      obj[numbers[i]] = 1
+    }
+  }
+  return false
 }
+console.log(duplicate([2, 3, 1, 0, 2, 5, 3]))
