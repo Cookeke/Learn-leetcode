@@ -11,7 +11,7 @@ var climbStairs = function (n) {
   // return dp(n)
 
   const arr = [0, 1, 2]
-  for (let i = 3; i < n + 1; i++) {
+  for (let i = 3; i <= n; i++) {
     arr[i] = arr[i - 1] + arr[i - 2]
   }
   return arr[n]
