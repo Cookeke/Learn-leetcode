@@ -1,33 +1,38 @@
 // call
 const arr = []
-Function.prototype.myCall = function (o) {
-  // 创建临时对象用来储存call的第一个函数
-  const o = o || window
-  // 供法则 给临时对象添加需要call的方法
-  o.fn = this
-  // 获取后面的参数 参数为平铺模式
+Function.prototype.myCall = function (context) {
+  const context = context || window
+  context.fn = this
   const args = [...arguments].slice(1)
-  // 因为下一步要删除临时对象中需要继承的方法 所以临时存储结果到内存中
-  const res = o.fn(...args)
-  // 删除临时对象上的方法
-  delete o.fn
-  return res
+  const result = context.fn(...args)
+  delete context.fn
+  return result
 }
 Array.prototype.push.myCall(arr, '123', '234')
 
 // apply
 const arr2 = [1, 2, 3, 4]
-Function.prototype.myApply = function (o) {
-  // 创建临时对象用来储存apply的第一个函数
-  const o = o || window
-  // 供法则 给临时对象添加需要apply的方法
-  o.fn = this
-  // 获取后面的参数 参数为聚合模式
+Function.prototype.myApply = function (context) {
+  const context = context || window
+  context.fn = this
   const args = [...arguments][1]
-  // 判断args是否有参数
-  const res = args ? o.fn(...args) : o.fn()
-  // 删除临时对象上的方法
-  delete o.fn
+  const res = args ? context.fn(...args) : context.fn()
+  delete context.fn
   return res
 }
 Array.prototype.pop.myApply(arr2)
+
+Function.prototype.myBind = function(context) {
+  const that = this;
+  // 保留之前的参数，为了下面的参数拼接
+  const args = [...arguments].slice(1);
+  return function F() {
+    // 如果被new创建实例，不会被改变上下文！
+    if (this instanceof F) {
+      return new that(...args, ...arguments);
+    }
+    // args.concat(...arguments): 拼接之前和现在的参数
+    // 注意：arguments是个类Array的Object, 用解构运算符..., 直接拿值拼接
+    return that.apply(context, args.concat(...arguments));
+  };
+};
